@@ -30,7 +30,7 @@ class MultiZoomedScene(MovingCameraScene):
 		image.stretch_to_fit_width(display_width)
 		image.stretch_to_fit_height(display_height)
 
-		if display_center != None:
+		if isinstance(display_center, np.ndarray):
 			image.move_to(display_center)
 		else:
 			image.to_corner(display_corner, display_buff)
