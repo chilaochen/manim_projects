@@ -1,9 +1,10 @@
 import os
 from manim import *
-from .fourier_drawer import *
 from .mobjects import *
+from .animations import *
 from .zooming_scene import *
 from .multi_zoomed_scene import *
+from .fourier_drawer import *
 
 mono_font = "Consolas"
 
