@@ -7,7 +7,7 @@ from basel_circle import *
 
 class basel_problem(MultiZoomedScene):
 	def setup(self):
-		self.align_camera_with_stage()
+		align_camera_with_stage(self)
 
 	def construct(self):
 		self.next_section(skip_animations = False)

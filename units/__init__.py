@@ -15,7 +15,7 @@ NumberLine.set_default(tip_shape = StretchTip)
 Arrow.set_default(tip_shape = StretchTip)
 
 #tex_template
-tex_template = TexTemplateFromFile(tex_filename = os.path.join("units", "template.tex"))
+tex_template = TexTemplateFromFile(tex_compiler="xelatex", output_format=".xdv", tex_filename = os.path.join("units", "template.tex"))
 SingleStringMathTex.set_default(tex_template = tex_template)
 MathTex.set_default(tex_template = tex_template)
 Tex.set_default(tex_template = tex_template)
@@ -28,10 +28,14 @@ SUBTITLE_HEIGHT = 0.5
 STAGE_WIDTH = FRAME_WIDTH
 STAGE_HEIGHT = FRAME_HEIGHT - SUBTITLE_HEIGHT
 STAGE_CENTER = UP * SUBTITLE_HEIGHT
+STAGE_TOP = STAGE_CENTER + UP * STAGE_HEIGHT / 2
+STAGE_BOTTOM = STAGE_CENTER + DOWN * STAGE_HEIGHT / 2
+STAGE_LEFT = LEFT * STAGE_WIDTH / 2
+STAGE_RIGHT = RIGHT * STAGE_WIDTH / 2
 
 #move Camera down so Mobject create in the center of the subject of the video
-def align_camera_with_stage(self):
-	self.camera.frame_center = -STAGE_CENTER
+def align_camera_with_stage(scene):
+	scene.camera.frame_center = -STAGE_CENTER
 
 #avoid moving Mobject up and out of view
 def to_stage_corner(self, corner = DL, *args):
@@ -46,6 +50,20 @@ def to_stage_edge(self, edge = LEFT, *args):
 	else:
 		return self.to_edge(edge, *args)
 
-setattr(Scene, "align_camera_with_stage", align_camera_with_stage)
+# setattr(Scene, "align_camera_with_stage", align_camera_with_stage)
 setattr(Mobject, "to_stage_corner", to_stage_corner)
 setattr(Mobject, "to_stage_edge", to_stage_edge)
+
+def prepare_for_nonlinear_transform(mobject : Mobject, num_inserted_curves: int = 50) -> Mobject:
+	for mob in mobject.family_members_with_points():
+		num_curves = mob.get_num_curves()
+		if num_inserted_curves > num_curves:
+			mob.insert_n_curves(num_inserted_curves - num_curves)
+	return mobject
+
+def attach_dots_on_cube(cube, **kwargs):
+	dots = VGroup()
+	for s in cube[0:2]:
+		for i in range(len(s.get_vertices())):
+			dots.add(Dot(**kwargs).add_updater(lambda m,s=s,i=i: m.move_to(s.get_vertices()[i]).set_opacity(s.get_stroke_opacity())))
+	return dots.set_z_index(1)

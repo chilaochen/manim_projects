@@ -10,7 +10,7 @@ import tex_maker
 
 class Patina(MultiZoomedScene):
 	def setup(self):
-		self.align_camera_with_stage()
+		align_camera_with_stage(self)
 		self.title_height = 0.4
 		random.seed(42)
 
