@@ -1,3 +1,4 @@
+from typing import Callable
 from manim import *
 from manim.typing import Point3D
 

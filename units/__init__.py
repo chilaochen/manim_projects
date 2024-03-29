@@ -9,13 +9,15 @@ from .fourier_drawer import *
 mono_font = "Consolas"
 
 #https://github.com/lxgw/LxgwWenKai
-Text.set_default(font = "LXGW WenKai", font_size = 24)
+Text.set_default(font = "LXGW WenKai", font_size = 36)
 
 NumberLine.set_default(tip_shape = StretchTip)
 Arrow.set_default(tip_shape = StretchTip)
+SurroundingRectangle.set_default(corner_radius = 0.1)
 
 #tex_template
-tex_template = TexTemplateFromFile(tex_compiler="xelatex", output_format=".xdv", tex_filename = os.path.join("units", "template.tex"))
+tex_template = TexTemplate.from_file(os.path.join("units", "template.tex"), tex_compiler="xelatex", output_format=".xdv")
+# tex_template = TexTemplateFromFile(tex_compiler="xelatex", output_format=".xdv", tex_filename = os.path.join("units", "template.tex"))
 SingleStringMathTex.set_default(tex_template = tex_template)
 MathTex.set_default(tex_template = tex_template)
 Tex.set_default(tex_template = tex_template)
